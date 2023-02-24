@@ -1,37 +1,50 @@
-//Get the string from the page
-//controller function
-function getValue(){
-    
+//Controller Function
+//Get string data from the page
+function getString() {
+
     document.getElementById("alert").classList.add("invisible");
-    
+
     let userString = document.getElementById("userString").value;
-    
-    let revString = reverseString(userString);
-    
-    displayString(revString);
+
+    let returnObj = palindrome(userString);
+
+    displayResults(returnObj);
 }
 
-//Reverse the string
-//logic function
-function reverseString(userString){
+//Logic Function
+//Identify if the string is a palindrome
+function palindrome(userString){
 
+    let returnObj = {};
+    //make string lowercase and remove whitespace, special characters
+    userString = userString.toLowerCase();
+    let regex = /[^a-z0-9]/gi;
+    userString = userString.replace(regex,"");
+
+    //reverse the string
     let revString = [];
-   
-    //revere a string using a for loop
-    for (let index = userString.length - 1; index >= 0; index--) {
-        revString += userString[index];
-        
+    for(let i = userString.length-1; i >= 0; i--){
+        revString += userString[i];
     }
 
-    return revString;
+    //check if the string is same forward and backward
+    if(revString == userString) {
+        returnObj.msg = "Yes!  You entered a palindrome"
+    } else {
+        returnObj.msg = "Nope! you did not enter a palindrome"
+    }
+
+    returnObj.reversed = revString;
+
+    return returnObj;
 }
 
-//Display the reversed string to the user
-//View Function
-function displayString(revstring){
+//Display Function
+//Display the output on the screen
+function displayResults(returnObj) {
+    //turn on alert box
+    document.getElementById("alert").classList.remove("invisible");
 
-    //write to the page
-    document.getElementById("msg").innerHTML = `Your string reversed is: ${revstring}`;
-    //show the alert box
-    document.getElementById("alert").classList.remove("invisible")
+    document.getElementById("alertHeader").innerHTML = returnObj.msg;
+    document.getElementById("msg").innerHTML = `Your phrase reversed is: ${returnObj.reversed} `;
 }
